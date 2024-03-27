@@ -1,5 +1,19 @@
 import * as React from "react";
 
+/**
+ * PLAN!
+ * 
+ * node service that reads an images dir and returns an array of base64 encoded images
+ * React renders the images, add an onclick handler to the image that passes the src (base54 uri)
+ * to food-search - and then we need to continue as normal with the vision search and the web search
+ * 
+ * 
+ * Custom hook to fetch the data https://www.phind.com/search?cache=g05utzamqm7gdbhhaqlb1bmi
+ * 
+ * ALTERNATIVE - file upload and FileReader API
+ * 
+ */
+
 export default function ImageSearch() {
 
     const [input, setInput] = React.useState('')
