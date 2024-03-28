@@ -161,21 +161,44 @@ function handleError(err) {
     console.log(err);
 }
    
-await go()
+// await go()
 
 
-/*5. Using Higher Order Functions for Error Handling
-Higher order functions can be used to create a safe version of an async function that automatically handles errors. This approach encapsulates the error handling logic, making it reusable across different async functions.
+/**
+ * 
+5. Using Higher Order Functions for Error Handling
+Higher order functions can be used to create a safe version of an 
+async function that automatically handles errors. This approach encapsulates
+ the error handling logic, making it reusable across different async functions.
+
+ This example shows how to create a higher order function that wraps an async
+  function and automatically handles any errors that occur, providing a
+    clean and reusable error handling mechanism
+
+ */
 
 function makeSafe(fn, errorHandler) {
- return function() {
-    fn().catch(errorHandler);
- }
+    return function() {
+       return fn().catch(errorHandler); // resolved promise value or undefined depending on resolved/rejected
+    }
 }
 
 async function fetchData() {
- // Implementation...
+    return new Promise((resolve, reject) => {
+        // do sth async
+        setTimeout(() => {
+            const result = 'here is the result'
+            if(result){
+                resolve(result)
+            }
+            else {
+                reject('OH NO!')
+            }
+        }, 1000)
+
+    }) 
 }
 
 const safeFetchData = makeSafe(fetchData, handleError);
-safeFetchData();*/
+
+safeFetchData().then(data => console.log(data))
