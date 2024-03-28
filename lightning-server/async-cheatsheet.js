@@ -32,7 +32,7 @@ function fetchDataWithPromises() {
 }
 
 
-fetchDataWithPromises()
+/* fetchDataWithPromises()
     // use the data from the resolved Promise
     .then(data => {
         // console.log(`fetchDataWithPromises ${JSON.stringify(data)}`);
@@ -40,7 +40,7 @@ fetchDataWithPromises()
     // catch the errors raised in the rejected Promise
     .catch(error => {
         console.error('Error:', error);
-    });
+    }); */
 
 
 /**
@@ -65,7 +65,7 @@ async function fetchDataWithASyncAwait1() {
     }
     }
 
-const data1 = await fetchDataWithASyncAwait1();
+// const data1 = await fetchDataWithASyncAwait1();
 // console.log(`fetchDataWithASyncAwait1 ${JSON.stringify(data1)}`);
 
 /**
@@ -113,5 +113,69 @@ async function fetchMultipleData() {
         console.error('Error:', error);
     }
 }
-fetchMultipleData();
-       
+// fetchMultipleData();
+
+/**
+ * Mix async/await with Promise handling
+ * 
+ * so in case makePizza() doesn't handle errors you can catch all that are thrown
+ * like this instead of try...catch
+ */
+
+async function makePizza(){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const pizza = false;
+
+            if(pizza) {
+                resolve(pizza);
+            }
+            else {
+                reject('NO PIZZA');
+            }
+
+        }, 2000); // Simulating an asynchronous operation
+    });
+}
+
+/**
+ * IMPORTANT!!!!!!! Be aware that in this case, if makePizza() throws an error
+ * then pizza will be undefined (as that's what catch() returns in this case).
+ * 
+ * If that's not what you want you could:
+ * 
+ * consider explicitly throwing inside the error
+ * handler, making "console.log({pizza});" unreachable 
+ * 
+ * OR optionally you could even make the error handler return a default value for pizza!
+ * 
+ * OR you could just use try catch and then you're guaranteed to have 'pizza' inside try
+ */
+async function go() {
+    const pizza = await makePizza().catch(handleError);
+    console.log({pizza});
+}
+
+function handleError(err) {
+    console.log('Ohhhh nooo');
+    console.log(err);
+}
+   
+await go()
+
+
+/*5. Using Higher Order Functions for Error Handling
+Higher order functions can be used to create a safe version of an async function that automatically handles errors. This approach encapsulates the error handling logic, making it reusable across different async functions.
+
+function makeSafe(fn, errorHandler) {
+ return function() {
+    fn().catch(errorHandler);
+ }
+}
+
+async function fetchData() {
+ // Implementation...
+}
+
+const safeFetchData = makeSafe(fetchData, handleError);
+safeFetchData();*/
