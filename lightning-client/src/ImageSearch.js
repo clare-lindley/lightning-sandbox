@@ -1,16 +1,20 @@
 import * as React from "react";
+import Images from "./Images";
 
 /**
  * PLAN!
  * 
- * node service that reads an images dir and returns an array of base64 encoded images
- * React renders the images, add an onclick handler to the image that passes the src (base54 uri)
+ * 1. node service that reads an images dir and returns an array of base64 encoded images - OK
+ * 
+ * 2. express endpoint that calls it - OK
+ * 
+ * 3. Custom hook to call THAT  https://www.phind.com/search?cache=g05utzamqm7gdbhhaqlb1bmi - OK
+ * 
+ * 4. React uses the hook, renders the images, add an onclick handler to the image that passes the src (base54 uri)
  * to food-search - and then we need to continue as normal with the vision search and the web search
  * 
- * 
- * Custom hook to fetch the data https://www.phind.com/search?cache=g05utzamqm7gdbhhaqlb1bmi
- * 
- * ALTERNATIVE - file upload and FileReader API
+ * YEAH PERFORMANCE, YEAH SECURITY - this is just for fun mmmkay?
+ * ALTERNATIVE - file upload and FileReader API? 
  * 
  */
 
@@ -53,6 +57,8 @@ export default function ImageSearch() {
 
     return (
         <div>
+           <h1>Choose an Image</h1>
+          <Images />
           <h1>Enter Image URL</h1>
           <input
             type="text"

@@ -14,7 +14,3 @@ export default async function fileReader() {
 
     return base64Uris;
 }
-
-
-
-console.log(await fileReader())
