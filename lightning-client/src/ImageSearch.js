@@ -8,10 +8,10 @@ import Images from "./Images";
  * 
  * 2. express endpoint that calls it - OK
  * 
- * 3. Custom hook to call THAT  https://www.phind.com/search?cache=g05utzamqm7gdbhhaqlb1bmi - OK
+ * 3. Custom hook to call THAT  - OK
  * 
  * 4. React uses the hook, renders the images, add an onclick handler to the image that passes the src (base54 uri)
- * to food-search - and then we need to continue as normal with the vision search and the web search
+ * to food-search - and then we need to continue as normal with the vision search and the web search OK
  * 
  * YEAH PERFORMANCE, YEAH SECURITY - this is just for fun mmmkay?
  * ALTERNATIVE - file upload and FileReader API? 
