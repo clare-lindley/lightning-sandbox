@@ -8,19 +8,21 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors()); // Enable CORS for all routes
+app.use(express.json({ limit: '200kb' })); // Needed to parse JSON bodies
 
 // it's not REST-ful. It's just getting a server up and running so we can run backend services.
 
 // Define an endpoint to execute foodSearch
-app.get('/food-search', async (req, res) => {
+app.post('/food-search', async (req, res) => {
   try {
-    const result = await foodSearch(req.query.url);
-    res.json(result.choices[0].message.content);
+     const result = await foodSearch(req.body.url); // Access URL from req.body
+     res.json(result.choices[0].message.content);
   } catch (error) {
-    console.error('Error executing food Search:', error);
-    res.status(500).json({ error: 'Internal server error' });
+     console.error('Error executing food Search:', error);
+     res.status(500).json({ error: 'Internal server error' });
   }
-});
+ });
+ 
 
 // Define an endpoint to execute restaurant search
 app.get('/restaurant-search', async (req, res) => {

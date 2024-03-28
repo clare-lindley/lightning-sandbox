@@ -18,6 +18,37 @@ import Images from "./Images";
  * 
  */
 
+
+/**
+ * 
+ * helpers
+ */
+async function getRestaurants(foodType) {
+  const searchResponse = await fetch(`http://localhost:5000/restaurant-search?foodType=${foodType}`, { method: 'GET' });
+  const restaurants = await searchResponse.json();
+  console.log(restaurants);
+  return restaurants;
+}
+
+/* async function getFoodType(url) {
+  const foodResponse = await fetch(`http://localhost:5000/food-search?url=${url}`, { method: 'GET' });
+  const foodType = await foodResponse.json();
+  console.log(foodType);
+  return foodType;
+} */
+
+async function getFoodType(url) {
+  const foodResponse = await fetch(`http://localhost:5000/food-search`, {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify({ url }) 
+  });
+  const foodType = await foodResponse.json();
+  console.log(foodType);
+  return foodType;
+ }
+ 
+
 export default function ImageSearch() {
 
     const [input, setInput] = React.useState('')
@@ -32,14 +63,10 @@ export default function ImageSearch() {
 
       console.log('searching...')
 
-      const foodResponse = await fetch(`http://localhost:5000/food-search?url=${input}`, {method: 'GET'})
-      const foodType = await foodResponse.json()
-      console.log(foodType)
+      const foodType = await getFoodType(input);
       setFoodType(foodType)
 
-      const searchResponse = await fetch(`http://localhost:5000/restaurant-search?foodType=${foodType}`, {method: 'GET'})
-      const restaurants = await searchResponse.json();
-      console.log(restaurants);
+      const restaurants = await getRestaurants(foodType);
 
       const stuffToDisplay = restaurants.items.map(item => (
         {
@@ -55,10 +82,35 @@ export default function ImageSearch() {
 
     }
 
+    const handleImageClick = async (e) => {
+
+      const base64URI = e.target.src
+      console.log(`IMAGE DATA ${base64URI}`)
+      console.log('searching...')
+
+      const foodType = await getFoodType(base64URI);
+      setFoodType(foodType)
+
+      const restaurants = await getRestaurants(foodType);
+
+      const stuffToDisplay = restaurants.items.map(item => (
+        {
+          title: item.title,
+          url: item.formattedUrl
+        }
+        ))
+
+      console.log(stuffToDisplay);
+
+      setRestaurants(stuffToDisplay)
+
+    }
+
+
     return (
         <div>
            <h1>Choose an Image</h1>
-          <Images />
+          <Images onImageClick={handleImageClick}/>
           <h1>Enter Image URL</h1>
           <input
             type="text"
@@ -81,5 +133,8 @@ export default function ImageSearch() {
             )}
         </div>
       );
+
+
+
 
 }
